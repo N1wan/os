@@ -7,10 +7,9 @@ CC = $(BINPATH)/gcc
 AS = $(BINPATH)/as
 LD = $(BINPATH)/ld
 
-# start VM (without debugger)
-# qemu-system-x86_64 -machine q35 -fda out/disk.img
-# start VM (with debugger)
-# qemu-system-x86_64 -machine q35 -fda out/disk.img -gdb tcp::26000 -S
+qemu-gdb: all
+	qemu-system-x86_64 -machine q35 -fda out/disk.img -gdb tcp::26000 -S
+
 qemu: all
 	qemu-system-x86_64 -machine q35 -fda out/disk.img
 
@@ -38,16 +37,3 @@ out:
 
 clean:
 	rm -rf out
-
-# to run the debugger, do this
-# make sure in make qemu the line with debugger is used
-# first run:
-#     gdb
-# then in gdb run:
-#     set architecture i386:x86-64
-#     target remote localhost:26000
-#     layout asm
-#     layout reg
-# optionally:
-#     b *0x7c00
-#     c
