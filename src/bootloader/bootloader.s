@@ -13,9 +13,32 @@
 # *  this is also done in the linker file)                          *
 # *******************************************************************
 _start:
-	jmp boot
+    jmp boot
 
 boot:
-	cli        # clear interrupts
-	cld        # clear direction flag
-	hlt        # halt system
+    cli     # clear interrupts
+    cld     # clear direction flag
+
+    #***--- doing some printing with BIOS service ---***#
+    movb    $0x0E, %ah      # display character function
+    movb    $'H', %al       # character to display
+    int     $0x10           # BIOS video service
+
+    movb    $0x0E, %ah      # display character function
+    movb    $'i', %al       # character to display
+    int     $0x10           # BIOS video service
+
+    movb    $0x0E, %ah      # display character function
+    movb    $'!', %al       # character to display
+    int     $0x10           # BIOS video service
+
+    movb    $0x0E, %ah      # display character function
+    movb    $'!', %al       # character to display
+    int     $0x10           # BIOS video service
+
+    movb    $0x0E, %ah      # display character function
+    movb    $'!', %al       # character to display
+    int     $0x10           # BIOS video service
+    #***---------------------------------------------***#
+
+    hlt     # halt system
