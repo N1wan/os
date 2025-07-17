@@ -7,13 +7,13 @@ CC = $(BINPATH)/gcc
 AS = $(BINPATH)/as
 LD = $(BINPATH)/ld
 
-qemu-gdb: all
-	qemu-system-x86_64 -machine q35 -fda out/disk.img -gdb tcp::26000 -S
+all: out/bootloader # out/kernel
 
 qemu: all
 	qemu-system-x86_64 -machine q35 -fda out/disk.img
 
-all: out/bootloader # out/kernel
+qemu-gdb: all
+	qemu-system-x86_64 -machine q35 -fda out/disk.img -gdb tcp::26000 -S
 
 out/bootloader: out/bootloader.o src/bootloader/link_boot.ld | out/disk.img
 	$(LD) -nostdlib -T src/bootloader/link_boot.ld -o $@ out/bootloader.o
