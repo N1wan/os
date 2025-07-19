@@ -13,7 +13,7 @@
 # *  this is also done in the linker file)                          *
 # *******************************************************************
 _start:
-    jmp boot
+    ljmp    $0x0, $boot     # long jump to 0x0000:boot to make sure CS is 0
 
 boot:
     cli     # clear interrupts
